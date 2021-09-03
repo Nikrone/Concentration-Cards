@@ -41,13 +41,13 @@ class ViewController: UIViewController {
     
     private var emojiCollection = ["🐫", "🐜", "🦅", "🐥", "🦉", "🦆", "🦈", "🦧", "🦒", "🦢", "🐊", "🐢"]
     
-    private var emojiDictionary = [Int: String]()
+    private var emojiDictionary = [Card: String]()
     
     private func emojiIdentifier(for card: Card) -> String {
-        if emojiDictionary[card.identifier] == nil {
+        if emojiDictionary[card] == nil {
             //            метод который берет РАНДОМНЫЙ индекс из СЛОВАРЯ
             //            let randomIndex = Int(arc4random_uniform(UInt32(emojiCollection.count)))
-            emojiDictionary[card.identifier] = emojiCollection.remove(at: emojiCollection.count.arc4randomExtension)
+            emojiDictionary[card] = emojiCollection.remove(at: emojiCollection.count.arc4randomExtension)
         }
         //        ТОЖЕ САМОЕ что написано ниже (return emojiDictionary[card.identifier] ?? "?")
         //        if emojiDictionary[card.identifier] != nil {
@@ -55,7 +55,7 @@ class ViewController: UIViewController {
         //        } else {
         //            return "?"
         //        }
-        return emojiDictionary[card.identifier] ?? "?"
+        return emojiDictionary[card] ?? "?"
     }
     
     private func updateVeiwFromModel() {
