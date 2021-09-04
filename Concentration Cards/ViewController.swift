@@ -10,7 +10,11 @@ import UIKit
 class ViewController: UIViewController {
     
     @IBOutlet private var buttonCollection: [UIButton]!
-    @IBOutlet private weak var touchLabel: UILabel!
+    @IBOutlet private weak var touchLabel: UILabel! {
+        didSet {
+            updateTouches()
+        }
+    }
     
     //    создаем экземпляр класса
     //    lazy - не будет инициализирована, пока не будет использована
@@ -20,10 +24,19 @@ class ViewController: UIViewController {
         return (buttonCollection.count + 1) / 2
     }
     
+    private func updateTouches () {
+        let attributes: [NSAttributedString.Key: Any] = [
+            .strokeWidth: 5.0,
+            .strokeColor: UIColor.red
+        ]
+        let atributedString = NSAttributedString(string: "Touches: \(touches)", attributes: attributes)
+        touchLabel.attributedText = atributedString
+    }
+    
     private(set) var touches = 0 {
         //        Observer - следит за изменением значения переменной touches, если она изменяется, то выполняет код (touchLabel.text = "Touches: \(touches)")
         didSet {
-            touchLabel.text = "Touches: \(touches)"
+           updateTouches()
         }
     }
     
@@ -39,7 +52,9 @@ class ViewController: UIViewController {
     //        }
     //    }
     
-    private var emojiCollection = ["🐫", "🐜", "🦅", "🐥", "🦉", "🦆", "🦈", "🦧", "🦒", "🦢", "🐊", "🐢"]
+//    private var emojiCollection = ["🐫", "🐜", "🦅", "🐥", "🦉", "🦆", "🦈", "🦧", "🦒", "🦢", "🐊", "🐢"]
+//    заменил массив из String, на String
+    private var emojiCollection = "🐫🐜🦅🐥🦉🦆🦈🦧🦒🦢🐊🐢"
     
     private var emojiDictionary = [Card: String]()
     
@@ -47,7 +62,8 @@ class ViewController: UIViewController {
         if emojiDictionary[card] == nil {
             //            метод который берет РАНДОМНЫЙ индекс из СЛОВАРЯ
             //            let randomIndex = Int(arc4random_uniform(UInt32(emojiCollection.count)))
-            emojiDictionary[card] = emojiCollection.remove(at: emojiCollection.count.arc4randomExtension)
+            let randomStringIndex = emojiCollection.index(emojiCollection.startIndex, offsetBy: emojiCollection.count.arc4randomExtension)
+            emojiDictionary[card] = String(emojiCollection.remove(at: randomStringIndex))
         }
         //        ТОЖЕ САМОЕ что написано ниже (return emojiDictionary[card.identifier] ?? "?")
         //        if emojiDictionary[card.identifier] != nil {
